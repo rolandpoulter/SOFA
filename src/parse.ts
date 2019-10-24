@@ -56,7 +56,7 @@ function resolveVariable({
     return value;
   }
 
-  if (type.kind === 'ListType') {
+  if (value && type.kind === 'ListType') {
     return (value as any[]).map(val =>
       resolveVariable({
         value: val,
@@ -66,11 +66,13 @@ function resolveVariable({
     );
   }
 
-  if (type.kind === 'NonNullType') {
+  if (value && type.kind === 'NonNullType') {
     return resolveVariable({
       value: value,
       type: type.type,
       schema,
     });
   }
+  
+  return value;
 }
