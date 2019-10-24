@@ -19,9 +19,9 @@ export function parseVariable({
 }) {
   if (value !== undefined || value !== null) {
     return resolveVariable({
-        value,
-        type: variable.type,
-        schema,
+      value,
+      type: variable.type,
+      schema,
     });
   }
   return;
@@ -57,6 +57,9 @@ function resolveVariable({
   }
 
   if (value && type.kind === 'ListType') {
+    if (!Array.isArray(value)) {
+      value = [value];
+    }
     return (value as any[]).map(val =>
       resolveVariable({
         value: val,
@@ -73,6 +76,6 @@ function resolveVariable({
       schema,
     });
   }
-  
+
   return value;
 }
