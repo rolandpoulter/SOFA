@@ -46,6 +46,10 @@ function resolveVariable({
         value = value === 'true';
       }
 
+      if (value === null || value === undefined) {
+        return value;
+      }
+
       return namedType.serialize(value);
     }
 
@@ -69,13 +73,11 @@ function resolveVariable({
     );
   }
 
-  if (value && type.kind === 'NonNullType') {
+  if (type.kind === 'NonNullType') {
     return resolveVariable({
       value: value,
       type: type.type,
       schema,
     });
   }
-
-  return value;
 }
