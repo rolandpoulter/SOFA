@@ -21,6 +21,9 @@ function resolveVariable({ value, type, schema, }) {
                 // we don't support TRUE
                 value = value === 'true';
             }
+            if (value === null || value === undefined) {
+                return value;
+            }
             return namedType.serialize(value);
         }
         if (graphql_1.isInputObjectType(namedType)) {
@@ -38,13 +41,12 @@ function resolveVariable({ value, type, schema, }) {
             schema,
         }));
     }
-    if (value && type.kind === 'NonNullType') {
+    if (type.kind === 'NonNullType') {
         return resolveVariable({
             value: value,
             type: type.type,
             schema,
         });
     }
-    return value;
 }
 //# sourceMappingURL=parse.js.map
